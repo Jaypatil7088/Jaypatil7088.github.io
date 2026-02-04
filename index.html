@@ -300,24 +300,26 @@
 
         /* HUD Styles */
         .hud-container {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
             margin-top: -3rem;
             margin-bottom: 5rem;
-            flex-wrap: wrap;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hud-box {
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid var(--glass-border);
             padding: 1rem;
-            width: 200px;
             border-radius: 4px;
             font-family: 'JetBrains Mono', monospace;
             backdrop-filter: blur(5px);
             box-shadow: 0 0 15px rgba(0,0,0,0.5);
             position: relative;
+            min-height: 110px;
         }
 
         .hud-box::before {
@@ -338,17 +340,27 @@
         }
 
         .hud-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-secondary);
             margin-bottom: 0.5rem;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .hud-value {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hud-subvalue {
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            opacity: 0.8;
         }
 
         .hud-graph {
@@ -421,6 +433,11 @@
 
         <!-- Neural Link HUD -->
         <div class="hud-container">
+            <div class="hud-box">
+                <div class="hud-label">VISITOR_RECON</div>
+                <div class="hud-value" id="visitor-ip">SCANNING...</div>
+                <div class="hud-subvalue" id="visitor-os">IDENTIFYING_OS...</div>
+            </div>
             <div class="hud-box">
                 <div class="hud-label">UPLINK LATENCY</div>
                 <div class="hud-value" id="latency-val">24ms</div>
@@ -557,6 +574,31 @@
     </main>
 
     <script>
+        // Visitor Recon Logic
+        async function identifyVisitor() {
+            const ipDisplay = document.getElementById('visitor-ip');
+            const osDisplay = document.getElementById('visitor-os');
+            
+            // Detect OS
+            const ua = window.navigator.userAgent;
+            let os = "UNKNOWN_OS";
+            if (ua.indexOf("Win") !== -1) os = "WINDOWS_SYS";
+            if (ua.indexOf("Mac") !== -1) os = "MACOS_X";
+            if (ua.indexOf("Linux") !== -1) os = "LINUX_KERNEL";
+            if (ua.indexOf("Android") !== -1) os = "ANDROID_OS";
+            if (ua.indexOf("like Mac") !== -1) os = "IOS_MOBILE";
+            osDisplay.innerText = os;
+
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                ipDisplay.innerText = data.ip;
+                ipDisplay.style.color = 'var(--danger)'; // Make IP look "captured"
+            } catch (e) {
+                ipDisplay.innerText = "REFUSED_CONN";
+            }
+        }
+
         // News Fetcher
         async function fetchLiveNews() {
             const container = document.getElementById('live-news-container');
@@ -659,6 +701,7 @@
         window.addEventListener('resize', resize);
         resize(); init(); animate();
         fetchLiveNews();
+        identifyVisitor();
         setInterval(updateHUD, 1000);
     </script>
 </body>
