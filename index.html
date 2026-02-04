@@ -6,37 +6,54 @@
     <title>Jay's Cyber Portfolio & Toolkit</title>
     <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --glass-bg: rgba(30, 41, 59, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg-color: #050505;
+            --glass-bg: rgba(20, 20, 35, 0.6);
+            --glass-border: rgba(56, 189, 248, 0.2);
             --text-color: #e2e8f0;
-            --accent-color: #38bdf8; /* Sky Blue */
-            --accent-glow: rgba(56, 189, 248, 0.5);
+            --accent-color: #00f3ff; /* Neon Cyan */
+            --accent-glow: rgba(0, 243, 255, 0.4);
             --secondary-text: #94a3b8;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
             color: var(--text-color);
             margin: 0;
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background Canvas */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #0a0a1a 0%, #000000 100%);
         }
 
         /* Glassmorphism Utilities */
         .glass {
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+        }
+
+        .glass:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         header {
@@ -44,10 +61,10 @@
             top: 0;
             width: 100%;
             z-index: 100;
-            padding: 1rem 0;
-            background: rgba(15, 23, 42, 0.8);
+            padding: 1.2rem 0;
+            background: rgba(5, 5, 5, 0.8);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .nav-container {
@@ -64,36 +81,65 @@
             font-size: 1.5rem;
             font-family: 'JetBrains Mono', monospace;
             color: var(--accent-color);
-            text-shadow: 0 0 10px var(--accent-glow);
+            position: relative;
+        }
+
+        /* Typing cursor effect */
+        header h1::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
         }
 
         nav a {
-            color: var(--secondary-text);
+            color: var(--text-color);
             text-decoration: none;
             margin-left: 2rem;
             font-weight: 600;
             transition: color 0.3s;
             font-size: 0.95rem;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
         }
 
         nav a:hover {
             color: var(--accent-color);
         }
 
+        nav a:hover::after {
+            width: 100%;
+        }
+
         .hero {
             text-align: center;
-            padding: 10rem 1rem 6rem 1rem;
+            padding: 12rem 1rem 8rem 1rem;
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
         }
 
         .hero h2 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             margin-bottom: 1.5rem;
             line-height: 1.1;
-            background: linear-gradient(to right, #fff, #94a3b8);
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.3));
         }
 
         .hero p {
@@ -105,20 +151,39 @@
 
         .btn {
             display: inline-block;
-            background: var(--accent-color);
-            color: #0f172a;
-            padding: 1rem 2.5rem;
+            background: transparent;
+            color: var(--accent-color);
+            padding: 1rem 3rem;
             text-decoration: none;
             font-weight: 700;
-            border-radius: 50px;
+            border-radius: 4px;
+            border: 1px solid var(--accent-color);
             transition: all 0.3s ease;
-            box-shadow: 0 0 20px var(--accent-glow);
+            position: relative;
+            overflow: hidden;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-color);
+            transition: left 0.3s ease;
+            z-index: -1;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px var(--accent-glow);
-            filter: brightness(1.1);
+            color: #000;
+        }
+
+        .btn:hover::before {
+            left: 0;
         }
 
         section {
@@ -129,81 +194,95 @@
 
         h3 {
             font-size: 2.5rem;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             text-align: center;
             font-weight: 800;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        h3::before {
+            content: '// ';
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .card {
             padding: 2.5rem;
-            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+        .card i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
         }
 
         .card h4 {
-            color: var(--accent-color);
+            color: #fff;
             font-size: 1.5rem;
-            margin-top: 0;
-            font-family: 'JetBrains Mono', monospace;
+            margin: 0 0 1rem 0;
+            font-weight: 700;
         }
 
         .card p {
             color: var(--secondary-text);
+            font-size: 0.95rem;
+            flex-grow: 1;
         }
 
-        /* Tools Section Specifics */
-        .tool-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
         .download-link {
-            display: inline-block;
+            display: block;
             margin-top: 1.5rem;
-            color: var(--accent-color);
+            color: #fff;
             font-weight: bold;
             text-decoration: none;
-            border: 1px solid var(--accent-color);
-            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.8rem;
             border-radius: 8px;
             text-align: center;
             transition: 0.3s;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
         }
 
         .download-link:hover {
             background: var(--accent-color);
-            color: #0f172a;
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         footer {
             text-align: center;
             padding: 4rem;
-            border-top: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255,255,255,0.05);
             color: var(--secondary-text);
             margin-top: 4rem;
+            background: #020202;
         }
     </style>
 </head>
 <body>
+
+    <canvas id="canvas-bg"></canvas>
 
     <header>
         <div class="nav-container">
             <h1>~/Jay_Patil</h1>
             <nav>
                 <a href="#about">About</a>
-                <a href="#tools">Tools</a>
+                <a href="#tools">Toolkit</a>
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
             </nav>
@@ -211,82 +290,92 @@
     </header>
 
     <div class="hero">
-        <h2>Advanced Security Operations & Research</h2>
-        <p>Offensive Security | Malware Analysis | Infrastructure Protection. <br>Building the tools that secure the future.</p>
-        <a href="#tools" class="btn">Access Toolkit</a>
+        <h2>SECURE THE UNKNOWN</h2>
+        <p>Advanced Offensive Security | Infrastructure Hardening | Threat Intelligence</p>
+        <a href="#tools" class="btn">Initialize Toolkit</a>
     </div>
 
     <section id="about">
-        <h3>Mission Directive</h3>
+        <h3>Mission Profile</h3>
         <div class="glass" style="padding: 3rem; text-align: center;">
-            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: var(--secondary-text);">
-                I am a dedicated Security Researcher focused on identifying zero-day vulnerabilities and securing critical infrastructure. 
-                My methodology combines rigorous manual testing with automated analysis to ensure comprehensive coverage against modern threats.
+            <i class="fas fa-user-shield" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1.5rem;"></i>
+            <p style="font-size: 1.1rem; max-width: 800px; margin: 0 auto; color: var(--secondary-text);">
+                Operating in the shadows to shed light on vulnerabilities. I specialize in red teaming, malware analysis, and securing complex enterprise networks against state-level actors.
+                My approach is data-driven, relentless, and always evolving.
             </p>
         </div>
     </section>
 
     <!-- NEW TOOLS SECTION -->
     <section id="tools">
-        <h3>Cyber Defense Toolkit</h3>
+        <h3>Cyber Defense Arsenal</h3>
         <div class="grid">
-            <div class="card glass tool-card">
-                <div>
-                    <h4>Nmap (Network Mapper)</h4>
-                    <p>The industry standard for network discovery and security auditing. Essential for mapping attack surfaces.</p>
-                </div>
-                <a href="https://nmap.org/download.html" target="_blank" class="download-link">Download Nmap</a>
+            <div class="card glass">
+                <i class="fas fa-network-wired"></i>
+                <h4>Nmap</h4>
+                <p>The ultimate network mapper. Discover hosts and services on a computer network.</p>
+                <a href="https://nmap.org/download.html" target="_blank" class="download-link">
+                    <i class="fas fa-download"></i> Download Core
+                </a>
             </div>
-            <div class="card glass tool-card">
-                <div>
-                    <h4>Burp Suite Community</h4>
-                    <p>The leading software for web security testing. Intercept, analyze, and modify traffic.</p>
-                </div>
-                <a href="https://portswigger.net/burp/communitydownload" target="_blank" class="download-link">Download Burp</a>
+            <div class="card glass">
+                <i class="fas fa-bug"></i>
+                <h4>Burp Suite</h4>
+                <p>Web vulnerability scanner. The standard for securing web applications.</p>
+                <a href="https://portswigger.net/burp/communitydownload" target="_blank" class="download-link">
+                    <i class="fas fa-download"></i> Download Binary
+                </a>
             </div>
-            <div class="card glass tool-card">
-                <div>
-                    <h4>Wireshark</h4>
-                    <p>The world's foremost network protocol analyzer. Deep inspection of hundreds of protocols.</p>
-                </div>
-                <a href="https://www.wireshark.org/download.html" target="_blank" class="download-link">Download Wireshark</a>
+            <div class="card glass">
+                <i class="fas fa-wave-square"></i>
+                <h4>Wireshark</h4>
+                <p>Packet analyzer. Deep inspection of hundreds of protocols, live capture.</p>
+                <a href="https://www.wireshark.org/download.html" target="_blank" class="download-link">
+                    <i class="fas fa-download"></i> Download Tool
+                </a>
             </div>
-            <div class="card glass tool-card">
-                <div>
-                    <h4>Metasploit Framework</h4>
-                    <p>A powerful penetration testing platform for developing and executing exploit code.</p>
-                </div>
-                <a href="https://www.metasploit.com/download" target="_blank" class="download-link">Download Metasploit</a>
+            <div class="card glass">
+                <i class="fas fa-bomb"></i>
+                <h4>Metasploit</h4>
+                <p>Penetration testing framework. Validate vulnerabilities with real-world exploits.</p>
+                <a href="https://www.metasploit.com/download" target="_blank" class="download-link">
+                    <i class="fas fa-download"></i> Download Framework
+                </a>
             </div>
-             <div class="card glass tool-card">
-                <div>
-                    <h4>Hashcat</h4>
-                    <p>World's fastest password recovery utility. Advanced password cracking and recovery.</p>
-                </div>
-                <a href="https://hashcat.net/hashcat/" target="_blank" class="download-link">Download Hashcat</a>
+             <div class="card glass">
+                <i class="fas fa-key"></i>
+                <h4>Hashcat</h4>
+                <p>Advanced password recovery. World's fastest cracker.</p>
+                <a href="https://hashcat.net/hashcat/" target="_blank" class="download-link">
+                    <i class="fas fa-download"></i> Download Utility
+                </a>
             </div>
-             <div class="card glass tool-card">
-                <div>
-                    <h4>Ghidra</h4>
-                    <p>A software reverse engineering (SRE) suite of tools developed by NSA.</p>
-                </div>
-                <a href="https://ghidra-sre.org/" target="_blank" class="download-link">Download Ghidra</a>
+             <div class="card glass">
+                <i class="fas fa-microchip"></i>
+                <h4>Ghidra</h4>
+                <p>Software reverse engineering suite. Analyze binary code like a pro.</p>
+                <a href="https://ghidra-sre.org/" target="_blank" class="download-link">
+                    <i class="fas fa-download"></i> Download Suite
+                </a>
             </div>
         </div>
     </section>
 
     <section id="projects">
-        <h3>Active Deployments</h3>
+        <h3>Active Operations</h3>
         <div class="grid">
             <div class="card glass">
+                <i class="fab fa-python"></i>
                 <h4>VulnScanner Pro</h4>
                 <p>Automated Python scanner for detecting open ports and outdated service versions.</p>
             </div>
             <div class="card glass">
+                <i class="fas fa-comments"></i>
                 <h4>SecureChat Interface</h4>
                 <p>E2E encrypted messaging platform leveraging Signal Protocol.</p>
             </div>
             <div class="card glass">
+                <i class="fas fa-terminal"></i>
                 <h4>Payload Generator</h4>
                 <p>CLI tool for generating obfuscated payloads for red team engagements.</p>
             </div>
@@ -294,17 +383,97 @@
     </section>
 
     <section id="contact">
-        <h3>Encrypted Channel</h3>
+        <h3>Secure Uplink</h3>
         <div class="glass" style="padding: 3rem; text-align: center;">
-            <p>Ready to collaborate? Establish a secure connection.</p>
-            <p style="font-size: 1.2rem; color: var(--accent-color);">jay@example.com</p>
-            <p><a href="https://github.com/Jaypatil7088" style="color: var(--secondary-text);">github.com/Jaypatil7088</a></p>
+            <i class="fas fa-satellite-dish" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1.5rem;"></i>
+            <p>Transmission ready. Secure your infrastructure today.</p>
+            <p style="font-size: 1.2rem; color: var(--accent-color); font-weight: bold;">jay@example.com</p>
+            <p><a href="https://github.com/Jaypatil7088" style="color: var(--secondary-text);"><i class="fab fa-github"></i> github.com/Jaypatil7088</a></p>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Jay Patil. All Rights Reserved.</p>
+        <p>&copy; 2026 Jay Patil. System Status: <span style="color: #00ff00;">ONLINE</span></p>
     </footer>
 
+    <script>
+        // Particle Network Animation
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = 'rgba(0, 243, 255, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.min(window.innerWidth / 10, 100); 
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+
+                // Draw connections
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 150) {
+                        ctx.strokeStyle = `rgba(0, 243, 255, ${0.1 - dist/1500})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+    </script>
 </body>
 </html>
