@@ -110,31 +110,33 @@
 
         /* Hero Section */
         .hero {
-            padding: 8rem 0 6rem;
+            padding: 8rem 0 4rem;
             text-align: center;
         }
 
         .hero h2 {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 8vw, 3.5rem);
             line-height: 1.1;
             margin-bottom: 1.5rem;
             background: linear-gradient(to right, #f8fafc, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            padding: 0 10px;
         }
 
         .hero p {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 4vw, 1.25rem);
             color: var(--text-secondary);
             max-width: 700px;
             margin: 0 auto 2.5rem;
+            padding: 0 20px;
         }
 
         .cta-btn {
             display: inline-block;
             background: linear-gradient(135deg, var(--accent-primary), #0284c7);
             color: white;
-            padding: 1rem 2.5rem;
+            padding: 0.8rem 2rem;
             border-radius: 4px;
             text-decoration: none;
             font-weight: 600;
@@ -142,9 +144,46 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px var(--accent-glow);
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            .logo {
+                font-size: 1.2rem;
+            }
+            nav a {
+                margin-left: 1rem;
+                font-size: 0.8rem;
+            }
+            .hud-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                margin-bottom: 3rem;
+            }
+            .hud-box {
+                min-height: 90px;
+                padding: 0.8rem;
+            }
+            .hud-value {
+                font-size: 1rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+                margin: 3rem 0 1.5rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hud-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Glass Cards */
@@ -663,35 +702,81 @@
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, particles = [], packets = [];
-        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
-        class Particle {
-            constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4; this.size = Math.random() * 2 + 1; }
-            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; }
-            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = 'rgba(56, 189, 248, 0.5)'; ctx.fill(); }
+        const isMobile = window.innerWidth < 768;
+
+        function resize() { 
+            width = canvas.width = window.innerWidth; 
+            height = canvas.height = window.innerHeight; 
         }
+
+        class Particle {
+            constructor() { 
+                this.x = Math.random() * width; 
+                this.y = Math.random() * height; 
+                this.vx = (Math.random() - 0.5) * (isMobile ? 0.2 : 0.4); 
+                this.vy = (Math.random() - 0.5) * (isMobile ? 0.2 : 0.4); 
+                this.size = Math.random() * (isMobile ? 1.5 : 2) + 1; 
+            }
+            update() { 
+                this.x += this.vx; 
+                this.y += this.vy; 
+                if (this.x < 0 || this.x > width) this.vx *= -1; 
+                if (this.y < 0 || this.y > height) this.vy *= -1; 
+            }
+            draw() { 
+                ctx.beginPath(); 
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); 
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.5)'; 
+                ctx.fill(); 
+            }
+        }
+
         class Packet {
-            constructor(p1, p2) { this.p1 = p1; this.p2 = p2; this.progress = 0; this.speed = 0.02 + Math.random() * 0.03; this.active = true; }
+            constructor(p1, p2) { 
+                this.p1 = p1; this.p2 = p2; this.progress = 0; 
+                this.speed = 0.02 + Math.random() * 0.03; 
+                this.active = true; 
+            }
             update() { this.progress += this.speed; if (this.progress >= 1) this.active = false; }
             draw() {
                 if (!this.active) return;
-                for (let i = 0; i < 5; i++) {
+                const segments = isMobile ? 2 : 5;
+                for (let i = 0; i < segments; i++) {
                     const tp = Math.max(0, this.progress - (i * 0.02));
                     const tx = this.p1.x + (this.p2.x - this.p1.x) * tp;
                     const ty = this.p1.y + (this.p2.y - this.p1.y) * tp;
-                    ctx.beginPath(); ctx.arc(tx, ty, 2 - (i * 0.3), 0, Math.PI * 2); ctx.fillStyle = `rgba(239, 68, 68, ${1 - (i * 0.2)})`; ctx.fill();
+                    ctx.beginPath(); 
+                    ctx.arc(tx, ty, (isMobile ? 1.5 : 2) - (i * 0.3), 0, Math.PI * 2); 
+                    ctx.fillStyle = `rgba(239, 68, 68, ${1 - (i * 0.2)})`; 
+                    ctx.fill();
                 }
             }
         }
-        function init() { particles = []; for (let i = 0; i < 45; i++) particles.push(new Particle()); }
+
+        function init() { 
+            particles = []; 
+            const count = isMobile ? 25 : 45;
+            for (let i = 0; i < count; i++) particles.push(new Particle()); 
+        }
+
         function animate() {
             ctx.clearRect(0, 0, width, height);
+            const connectionDist = isMobile ? 100 : 160;
+            
             particles.forEach((p, i) => {
-                p.update(); p.draw();
+                p.update(); 
+                p.draw();
+                // Performance optimization: skip connections on very small screens if laggy
+                // but let's try reduced distance first
                 for (let j = i + 1; j < particles.length; j++) {
                     const d = Math.sqrt((p.x - particles[j].x)**2 + (p.y - particles[j].y)**2);
-                    if (d < 160) {
-                        ctx.beginPath(); ctx.strokeStyle = `rgba(56, 189, 248, ${0.15 * (1 - d/160)})`; ctx.moveTo(p.x, p.y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
-                        if (Math.random() < 0.002) packets.push(new Packet(p, particles[j]));
+                    if (d < connectionDist) {
+                        ctx.beginPath(); 
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${0.15 * (1 - d/connectionDist)})`; 
+                        ctx.moveTo(p.x, p.y); 
+                        ctx.lineTo(particles[j].x, particles[j].y); 
+                        ctx.stroke();
+                        if (Math.random() < (isMobile ? 0.001 : 0.002)) packets.push(new Packet(p, particles[j]));
                     }
                 }
             });
