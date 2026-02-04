@@ -3,48 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jay's Cyber Portfolio</title>
+    <title>Jay's Cyber Portfolio & Toolkit</title>
     <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --text-color: #1e293b;
-            --accent-color: #2563eb; /* Cyber Blue */
-            --secondary-bg: #ffffff;
-            --card-bg: #ffffff;
-            --hero-text: #ffffff;
+            --bg-color: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-color: #e2e8f0;
+            --accent-color: #38bdf8; /* Sky Blue */
+            --accent-glow: rgba(56, 189, 248, 0.5);
+            --secondary-text: #94a3b8;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
             color: var(--text-color);
             margin: 0;
             line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
         header {
-            background: var(--secondary-bg);
-            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 1rem 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--accent-color);
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            padding: 0 2rem;
         }
 
         header h1 {
             margin: 0;
             font-size: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
             color: var(--accent-color);
-            font-weight: 800;
+            text-shadow: 0 0 10px var(--accent-glow);
         }
 
         nav a {
-            color: var(--text-color);
+            color: var(--secondary-text);
             text-decoration: none;
-            margin-left: 1.5rem;
+            margin-left: 2rem;
             font-weight: 600;
+            transition: color 0.3s;
+            font-size: 0.95rem;
         }
 
         nav a:hover {
@@ -53,90 +82,116 @@
 
         .hero {
             text-align: center;
-            padding: 6rem 1rem;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(29, 78, 216, 0.9)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            color: var(--hero-text);
+            padding: 10rem 1rem 6rem 1rem;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .hero h2 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            font-weight: 800;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.4rem;
-            max-width: 700px;
-            margin: 0 auto 2.5rem auto;
-            opacity: 0.9;
+            font-size: 1.25rem;
+            color: var(--secondary-text);
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
         }
 
         .btn {
             display: inline-block;
-            background: #ffffff;
-            color: var(--accent-color);
+            background: var(--accent-color);
+            color: #0f172a;
             padding: 1rem 2.5rem;
             text-decoration: none;
             font-weight: 700;
             border-radius: 50px;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            background: var(--bg-color);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px var(--accent-glow);
+            filter: brightness(1.1);
         }
 
         section {
-            padding: 5rem 2rem;
-            max-width: 1100px;
+            padding: 6rem 2rem;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         h3 {
-            border-left: 6px solid var(--accent-color);
-            padding-left: 1.5rem;
-            margin-bottom: 3rem;
             font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
             font-weight: 800;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
         }
 
         .card {
-            background: var(--card-bg);
             padding: 2.5rem;
-            border-radius: 15px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
             transition: all 0.3s ease;
         }
 
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
             border-color: var(--accent-color);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
         }
 
         .card h4 {
             color: var(--accent-color);
             font-size: 1.5rem;
             margin-top: 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .card p {
+            color: var(--secondary-text);
+        }
+
+        /* Tools Section Specifics */
+        .tool-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .download-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            text-decoration: none;
+            border: 1px solid var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .download-link:hover {
+            background: var(--accent-color);
+            color: #0f172a;
         }
 
         footer {
             text-align: center;
-            padding: 3rem;
-            background: #1e293b;
-            color: #f8fafc;
+            padding: 4rem;
+            border-top: 1px solid var(--glass-border);
+            color: var(--secondary-text);
             margin-top: 4rem;
         }
     </style>
@@ -144,79 +199,111 @@
 <body>
 
     <header>
-        <h1>&lt;Jay_Patil /&gt;</h1>
-        <nav>
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </nav>
+        <div class="nav-container">
+            <h1>~/Jay_Patil</h1>
+            <nav>
+                <a href="#about">About</a>
+                <a href="#tools">Tools</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
     </header>
 
     <div class="hero">
-        <h2>Cybersecurity Analyst</h2>
-        <p>Securing digital frontiers. Vulnerability Assessment | Penetration Testing | Network Security</p>
-        <a href="#contact" class="btn">Initiate Connection</a>
+        <h2>Advanced Security Operations & Research</h2>
+        <p>Offensive Security | Malware Analysis | Infrastructure Protection. <br>Building the tools that secure the future.</p>
+        <a href="#tools" class="btn">Access Toolkit</a>
     </div>
 
     <section id="about">
-        <h3>About Me</h3>
-        <p>
-            I am a passionate Cybersecurity enthusiast dedicated to protecting systems from malicious attacks. 
-            With a strong foundation in ethical hacking and network defense, I strive to make the digital world a safer place.
-            I specialize in identifying vulnerabilities and implementing robust security solutions.
-        </p>
+        <h3>Mission Directive</h3>
+        <div class="glass" style="padding: 3rem; text-align: center;">
+            <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: var(--secondary-text);">
+                I am a dedicated Security Researcher focused on identifying zero-day vulnerabilities and securing critical infrastructure. 
+                My methodology combines rigorous manual testing with automated analysis to ensure comprehensive coverage against modern threats.
+            </p>
+        </div>
     </section>
 
-    <section id="skills">
-        <h3>Technical Arsenal</h3>
+    <!-- NEW TOOLS SECTION -->
+    <section id="tools">
+        <h3>Cyber Defense Toolkit</h3>
         <div class="grid">
-            <div class="card">
-                <h4>Penetration Testing</h4>
-                <p>Proficient in using tools like Burp Suite, Metasploit, and Nmap to identify and exploit vulnerabilities.</p>
+            <div class="card glass tool-card">
+                <div>
+                    <h4>Nmap (Network Mapper)</h4>
+                    <p>The industry standard for network discovery and security auditing. Essential for mapping attack surfaces.</p>
+                </div>
+                <a href="https://nmap.org/download.html" target="_blank" class="download-link">Download Nmap</a>
             </div>
-            <div class="card">
-                <h4>Network Security</h4>
-                <p>Experience in configuring firewalls, IDS/IPS, and securing network infrastructure.</p>
+            <div class="card glass tool-card">
+                <div>
+                    <h4>Burp Suite Community</h4>
+                    <p>The leading software for web security testing. Intercept, analyze, and modify traffic.</p>
+                </div>
+                <a href="https://portswigger.net/burp/communitydownload" target="_blank" class="download-link">Download Burp</a>
             </div>
-            <div class="card">
-                <h4>Web App Security</h4>
-                <p>Knowledge of OWASP Top 10, SQL Injection, XSS, and secure coding practices.</p>
+            <div class="card glass tool-card">
+                <div>
+                    <h4>Wireshark</h4>
+                    <p>The world's foremost network protocol analyzer. Deep inspection of hundreds of protocols.</p>
+                </div>
+                <a href="https://www.wireshark.org/download.html" target="_blank" class="download-link">Download Wireshark</a>
             </div>
-            <div class="card">
-                <h4>Scripting</h4>
-                <p>Python, Bash, and PowerShell scripting for automation and tool development.</p>
+            <div class="card glass tool-card">
+                <div>
+                    <h4>Metasploit Framework</h4>
+                    <p>A powerful penetration testing platform for developing and executing exploit code.</p>
+                </div>
+                <a href="https://www.metasploit.com/download" target="_blank" class="download-link">Download Metasploit</a>
+            </div>
+             <div class="card glass tool-card">
+                <div>
+                    <h4>Hashcat</h4>
+                    <p>World's fastest password recovery utility. Advanced password cracking and recovery.</p>
+                </div>
+                <a href="https://hashcat.net/hashcat/" target="_blank" class="download-link">Download Hashcat</a>
+            </div>
+             <div class="card glass tool-card">
+                <div>
+                    <h4>Ghidra</h4>
+                    <p>A software reverse engineering (SRE) suite of tools developed by NSA.</p>
+                </div>
+                <a href="https://ghidra-sre.org/" target="_blank" class="download-link">Download Ghidra</a>
             </div>
         </div>
     </section>
 
     <section id="projects">
-        <h3>Deployed Projects</h3>
+        <h3>Active Deployments</h3>
         <div class="grid">
-            <div class="card">
+            <div class="card glass">
                 <h4>VulnScanner Pro</h4>
-                <p>A custom Python-based vulnerability scanner that automates port scanning and service detection.</p>
+                <p>Automated Python scanner for detecting open ports and outdated service versions.</p>
             </div>
-            <div class="card">
-                <h4>SecureChat App</h4>
-                <p>An end-to-end encrypted messaging application built with React and Node.js.</p>
+            <div class="card glass">
+                <h4>SecureChat Interface</h4>
+                <p>E2E encrypted messaging platform leveraging Signal Protocol.</p>
             </div>
-            <div class="card">
-                <h4>Phishing Simulation</h4>
-                <p>A corporate training tool to help employees identify and report phishing attempts.</p>
+            <div class="card glass">
+                <h4>Payload Generator</h4>
+                <p>CLI tool for generating obfuscated payloads for red team engagements.</p>
             </div>
         </div>
     </section>
 
     <section id="contact">
-        <h3>Establish Uplink</h3>
-        <p>Ready to secure your infrastructure? Reach out directly.</p>
-        <p>Email: <a href="mailto:jay@example.com" style="color: var(--accent-color);">jay@example.com</a></p>
-        <p>GitHub: <a href="https://github.com/Jaypatil7088" style="color: var(--accent-color);">github.com/Jaypatil7088</a></p>
+        <h3>Encrypted Channel</h3>
+        <div class="glass" style="padding: 3rem; text-align: center;">
+            <p>Ready to collaborate? Establish a secure connection.</p>
+            <p style="font-size: 1.2rem; color: var(--accent-color);">jay@example.com</p>
+            <p><a href="https://github.com/Jaypatil7088" style="color: var(--secondary-text);">github.com/Jaypatil7088</a></p>
+        </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Jay Patil. All systems operational.</p>
+        <p>&copy; 2026 Jay Patil. All Rights Reserved.</p>
     </footer>
 
 </body>
