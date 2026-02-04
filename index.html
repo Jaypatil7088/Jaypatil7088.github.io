@@ -134,6 +134,23 @@
             clip-path: circle(150% at 100% 0%);
         }
 
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1002;
+            transition: transform 0.3s, color 0.3s;
+            padding: 10px;
+        }
+
+        .close-menu:hover {
+            color: var(--accent-primary);
+            transform: rotate(90deg);
+        }
+
         /* HUD Corner Accents for Menu */
         .mobile-menu::before {
             content: '';
@@ -589,6 +606,9 @@
 
     <div class="mobile-menu" id="mobile-menu">
         <div class="menu-scanlines"></div>
+        <div class="close-menu" onclick="toggleMenu()">
+            <i class="fas fa-times"></i>
+        </div>
         <div style="position: absolute; top: 10%; width: 100%; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent-primary); letter-spacing: 3px; opacity: 0.6;">
             [ NEURAL_UPLINK_ESTABLISHED ]
         </div>
