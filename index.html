@@ -3,417 +3,663 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jay's Cyber Portfolio & Toolkit</title>
+    <title>Jay's Elite Cyber Hub</title>
     <link rel="icon" type="image/svg+xml" href="./vite.svg" />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --text-color: #1e293b;
-            --accent-color: #0284c7; /* Professional Sky Blue */
-            --accent-glow: rgba(2, 132, 199, 0.2);
-            --secondary-text: #64748b;
+            --bg-color: #030712; /* Deepest Midnight */
+            --glass-bg: rgba(17, 24, 39, 0.7);
+            --glass-border: rgba(56, 189, 248, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-primary: #0ea5e9; /* Sky 500 */
+            --accent-glow: rgba(14, 165, 233, 0.5);
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            line-height: 1.6;
-            min-height: 100vh;
+            color: var(--text-primary);
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Animated Background Canvas */
-        #canvas-bg {
+        /* Moving Background */
+        canvas#particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
         }
 
-        /* Glassmorphism Utilities */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
+        /* Typography */
+        h1, h2, h3, h4, .mono {
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .glass:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
-        }
-
+        /* Header */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 100;
-            padding: 1.2rem 0;
-            background: rgba(248, 250, 252, 0.85);
+            padding: 1rem 2rem;
+            background: rgba(3, 7, 18, 0.8);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2rem;
         }
 
-        header h1 {
-            margin: 0;
+        /* Premium Quantum Flow Animation */
+        @keyframes shine-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .logo {
             font-size: 1.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-color);
             font-weight: 800;
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, var(--accent-primary) 0%, #ffffff 50%, var(--accent-primary) 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: shine-flow 3s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.6));
         }
 
         nav a {
-            color: var(--text-color);
+            color: var(--text-secondary);
             text-decoration: none;
             margin-left: 2rem;
-            font-weight: 600;
+            font-size: 0.9rem;
             transition: color 0.3s;
-            font-size: 0.95rem;
         }
 
         nav a:hover {
-            color: var(--accent-color);
+            color: var(--text-primary);
         }
 
-        .hero {
-            text-align: center;
-            padding: 12rem 1rem 8rem 1rem;
-            max-width: 900px;
+        /* Layout */
+        main {
+            padding-top: 80px;
+            max-width: 1200px;
             margin: 0 auto;
-            position: relative;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 6rem;
+            text-align: center;
         }
 
         .hero h2 {
-            font-size: 4.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 3.5rem;
             line-height: 1.1;
-            font-weight: 900;
-            color: #0f172a;
-            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #f8fafc, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: 1.3rem;
-            color: var(--secondary-text);
-            max-width: 600px;
-            margin: 0 auto 3rem auto;
-            font-weight: 500;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
         }
 
-        .btn {
+        .cta-btn {
             display: inline-block;
-            background: var(--accent-color);
-            color: #fff;
-            padding: 1rem 3rem;
+            background: linear-gradient(135deg, var(--accent-primary), #0284c7);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 4px;
             text-decoration: none;
-            font-weight: 700;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.3);
+            font-weight: 600;
+            box-shadow: 0 0 20px var(--accent-glow);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .btn:hover {
+        .cta-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(2, 132, 199, 0.4);
-            filter: brightness(1.1);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
-        section {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Glass Cards */
+        /* Safe Glitch Animation (Text Shadow Only) */
+        @keyframes safe-glitch {
+            0% { text-shadow: 0 0 10px var(--accent-glow); transform: skew(0deg); }
+            20% { text-shadow: -2px 0 #ff00c1, 2px 0 #00fff9; transform: skew(-1deg); }
+            40% { text-shadow: 2px 0 #ff00c1, -2px 0 #00fff9; transform: skew(1deg); }
+            60% { text-shadow: 0 0 10px var(--accent-glow); transform: skew(0deg); }
+            80% { text-shadow: -1px 0 #ff00c1, 1px 0 #00fff9; transform: skew(-0.5deg); }
+            100% { text-shadow: 0 0 10px var(--accent-glow); transform: skew(0deg); }
         }
 
-        h3 {
-            font-size: 2.5rem;
-            margin-bottom: 4rem;
-            text-align: center;
-            font-weight: 800;
-            color: #0f172a;
+        .section-title {
+            font-size: 2rem;
+            margin: 5rem 0 2rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+            position: relative;
+            animation: safe-glitch 3s infinite alternate;
         }
-        
+
+        .section-title::before {
+            content: '#';
+            color: var(--accent-primary);
+            margin-right: 0.5rem;
+            opacity: 0.8;
+        }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         .card {
-            padding: 2.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            will-change: transform;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-primary);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            transform: translateX(-100%);
+            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .card-header {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
         }
 
-        .card i {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .card h4 {
-            color: #0f172a;
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-primary);
             font-size: 1.5rem;
-            margin: 0 0 1rem 0;
-            font-weight: 700;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.net { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .badge.web { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+        .badge.sys { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .badge.intel { background: rgba(139, 92, 246, 0.1); color: #a78bfa; }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
         }
 
         .card p {
-            color: var(--secondary-text);
+            color: var(--text-secondary);
             font-size: 0.95rem;
-            flex-grow: 1;
+            margin-bottom: 1.5rem;
         }
 
-        .download-link {
-            display: block;
-            margin-top: 1.5rem;
-            color: var(--accent-color);
-            font-weight: bold;
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--accent-primary);
             text-decoration: none;
-            background: rgba(2, 132, 199, 0.1);
-            padding: 0.8rem;
-            border-radius: 8px;
-            text-align: center;
-            transition: 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .download-link:hover {
-            background: var(--accent-color);
-            color: #fff;
+        .card-link i {
+            margin-left: 0.5rem;
+            font-size: 0.8rem;
+            transition: transform 0.2s;
+        }
+
+        .card-link:hover i {
+            transform: translateX(3px);
+        }
+
+        /* News Feed */
+        .feed-item {
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .feed-item:last-child { border-bottom: none; }
+
+        .feed-info h4 { margin-bottom: 0.25rem; }
+        .feed-date { font-size: 0.8rem; color: var(--text-secondary); }
+        .feed-tag { 
+            font-size: 0.7rem; 
+            padding: 2px 8px; 
+            border: 1px solid var(--glass-border); 
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        /* HUD Styles */
+        .hud-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: -3rem;
+            margin-bottom: 5rem;
+            flex-wrap: wrap;
+        }
+
+        .hud-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--glass-border);
+            padding: 1rem;
+            width: 200px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .hud-box::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 10px; height: 10px;
+            border-top: 2px solid var(--accent-primary);
+            border-left: 2px solid var(--accent-primary);
+        }
+        .hud-box::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px;
+            width: 10px; height: 10px;
+            border-bottom: 2px solid var(--accent-primary);
+            border-right: 2px solid var(--accent-primary);
+        }
+
+        .hud-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .hud-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hud-graph {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 30px;
+        }
+
+        .graph-bar {
+            width: 4px;
+            background: var(--accent-primary);
+            opacity: 0.7;
+            transition: height 0.2s;
+        }
+
+        .hud-status {
+            font-size: 0.8rem;
+            color: var(--success);
+            border: 1px solid var(--success);
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+
+        .progress-bg {
+            width: 100%;
+            height: 4px;
+            background: #334155;
+            margin-top: 5px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--warning);
+            width: 12%;
+            transition: width 0.5s;
+            box-shadow: 0 0 10px var(--warning);
         }
 
         footer {
+            margin-top: 8rem;
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0;
             text-align: center;
-            padding: 4rem;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            color: var(--secondary-text);
-            margin-top: 4rem;
-            background: #fff;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-    <canvas id="canvas-bg"></canvas>
+    <canvas id="particle-canvas"></canvas>
 
     <header>
-        <div class="nav-container">
-            <h1>~/Jay_Patil</h1>
-            <nav>
-                <a href="#about">About</a>
-                <a href="#tools">Toolkit</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
+        <div class="logo">&lt;VOID_NEXUS /&gt;</div>
+        <nav>
+            <a href="#arsenal">ARSENAL</a>
+            <a href="#intel">INTEL</a>
+            <a href="#resources">RESOURCES</a>
+        </nav>
     </header>
 
-    <div class="hero">
-        <h2>SECURE THE UNKNOWN</h2>
-        <p>Advanced Offensive Security | Infrastructure Hardening | Threat Intelligence</p>
-        <a href="#tools" class="btn">Initialize Toolkit</a>
-    </div>
-
-    <section id="about">
-        <h3>Mission Profile</h3>
-        <div class="glass" style="padding: 3rem; text-align: center;">
-            <i class="fas fa-user-shield" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1.5rem;"></i>
-            <p style="font-size: 1.1rem; max-width: 800px; margin: 0 auto; color: var(--secondary-text);">
-                Operating in the shadows to shed light on vulnerabilities. I specialize in red teaming, malware analysis, and securing complex enterprise networks against state-level actors.
-                My approach is data-driven, relentless, and always evolving.
-            </p>
+    <main>
+        <div class="hero">
+            <h2>Elite Cyber Operations<br>Infrastructure</h2>
+            <p>A centralized command center for offensive security tooling, threat intelligence, and operational resources.</p>
+            <a href="#arsenal" class="cta-btn">DEPLOY TOOLKIT</a>
         </div>
-    </section>
 
-    <!-- NEW TOOLS SECTION -->
-    <section id="tools">
-        <h3>Cyber Defense Arsenal</h3>
+        <!-- Neural Link HUD -->
+        <div class="hud-container">
+            <div class="hud-box">
+                <div class="hud-label">UPLINK LATENCY</div>
+                <div class="hud-value" id="latency-val">24ms</div>
+                <div class="hud-graph">
+                    <div class="graph-bar" style="height: 30%"></div>
+                    <div class="graph-bar" style="height: 50%"></div>
+                    <div class="graph-bar" style="height: 20%"></div>
+                    <div class="graph-bar" style="height: 70%"></div>
+                    <div class="graph-bar" style="height: 40%"></div>
+                </div>
+            </div>
+            <div class="hud-box">
+                <div class="hud-label">ENCRYPTION PROTOCOL</div>
+                <div class="hud-value" style="color: var(--success);">TLS 1.3 (AES-256)</div>
+                <div class="hud-status">SECURE</div>
+            </div>
+            <div class="hud-box">
+                <div class="hud-label">CORE LOAD</div>
+                <div class="hud-value" id="cpu-val">12%</div>
+                <div class="progress-bg">
+                    <div class="progress-fill" id="cpu-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <h3 id="arsenal" class="section-title">OPERATIONAL ARSENAL</h3>
         <div class="grid">
-            <div class="card glass">
-                <i class="fas fa-network-wired"></i>
-                <h4>Nmap</h4>
-                <p>The ultimate network mapper. Discover hosts and services on a computer network.</p>
-                <a href="https://nmap.org/download.html" target="_blank" class="download-link">
-                    <i class="fas fa-download"></i> Download Core
-                </a>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box"><i class="fas fa-network-wired"></i></div>
+                    <span class="badge net">Network</span>
+                </div>
+                <h3>Nmap</h3>
+                <p>The standard for network discovery and security auditing.</p>
+                <a href="https://nmap.org/download.html" target="_blank" class="card-link">EXECUTE DOWNLOAD <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="card glass">
-                <i class="fas fa-bug"></i>
-                <h4>Burp Suite</h4>
-                <p>Web vulnerability scanner. The standard for securing web applications.</p>
-                <a href="https://portswigger.net/burp/communitydownload" target="_blank" class="download-link">
-                    <i class="fas fa-download"></i> Download Binary
-                </a>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box"><i class="fas fa-layer-group"></i></div>
+                    <span class="badge web">Web App</span>
+                </div>
+                <h3>Burp Suite Pro</h3>
+                <p>The world's most advanced web application security testing software.</p>
+                <a href="https://portswigger.net/burp" target="_blank" class="card-link">EXECUTE DOWNLOAD <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="card glass">
-                <i class="fas fa-wave-square"></i>
-                <h4>Wireshark</h4>
-                <p>Packet analyzer. Deep inspection of hundreds of protocols, live capture.</p>
-                <a href="https://www.wireshark.org/download.html" target="_blank" class="download-link">
-                    <i class="fas fa-download"></i> Download Tool
-                </a>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box"><i class="fas fa-bomb"></i></div>
+                    <span class="badge sys">Exploit</span>
+                </div>
+                <h3>Metasploit</h3>
+                <p>A penetration testing framework that makes hacking simple.</p>
+                <a href="https://www.metasploit.com/" target="_blank" class="card-link">EXECUTE DOWNLOAD <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="card glass">
-                <i class="fas fa-bomb"></i>
-                <h4>Metasploit</h4>
-                <p>Penetration testing framework. Validate vulnerabilities with real-world exploits.</p>
-                <a href="https://www.metasploit.com/download" target="_blank" class="download-link">
-                    <i class="fas fa-download"></i> Download Framework
-                </a>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box"><i class="fas fa-wave-square"></i></div>
+                    <span class="badge net">Analysis</span>
+                </div>
+                <h3>Wireshark</h3>
+                <p>Deep packet inspection. See what's happening on your network.</p>
+                <a href="https://www.wireshark.org/" target="_blank" class="card-link">EXECUTE DOWNLOAD <i class="fas fa-arrow-right"></i></a>
             </div>
-             <div class="card glass">
-                <i class="fas fa-key"></i>
-                <h4>Hashcat</h4>
-                <p>Advanced password recovery. World's fastest cracker.</p>
-                <a href="https://hashcat.net/hashcat/" target="_blank" class="download-link">
-                    <i class="fas fa-download"></i> Download Utility
-                </a>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box"><i class="fas fa-microchip"></i></div>
+                    <span class="badge sys">Reverse Eng</span>
+                </div>
+                <h3>Ghidra</h3>
+                <p>NSA's software reverse engineering suite.</p>
+                <a href="https://ghidra-sre.org/" target="_blank" class="card-link">EXECUTE DOWNLOAD <i class="fas fa-arrow-right"></i></a>
             </div>
-             <div class="card glass">
-                <i class="fas fa-microchip"></i>
-                <h4>Ghidra</h4>
-                <p>Software reverse engineering suite. Analyze binary code like a pro.</p>
-                <a href="https://ghidra-sre.org/" target="_blank" class="download-link">
-                    <i class="fas fa-download"></i> Download Suite
-                </a>
+            <div class="card">
+                <div class="card-header">
+                    <div class="icon-box"><i class="fas fa-lock-open"></i></div>
+                    <span class="badge sys">Cracking</span>
+                </div>
+                <h3>Hashcat</h3>
+                <p>World's fastest password recovery tool.</p>
+                <a href="https://hashcat.net/hashcat/" target="_blank" class="card-link">EXECUTE DOWNLOAD <i class="fas fa-arrow-right"></i></a>
             </div>
         </div>
-    </section>
 
-    <section id="projects">
-        <h3>Active Operations</h3>
+        <h3 id="intel" class="section-title">LIVE INTEL FEED</h3>
+        <div class="card" style="padding: 1rem 2rem;">
+            <div id="live-news-container">
+                <div class="feed-item">
+                    <div class="feed-info">
+                        <h4>Initializing secure uplink...</h4>
+                        <p class="feed-date">Fetching latest threat intelligence signatures.</p>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 10px;">
+                <span class="badge intel" id="sync-status">SYNC_STABLE</span>
+            </div>
+        </div>
+
+        <h3 id="resources" class="section-title">FIELD MANUALS</h3>
         <div class="grid">
-            <div class="card glass">
-                <i class="fab fa-python"></i>
-                <h4>VulnScanner Pro</h4>
-                <p>Automated Python scanner for detecting open ports and outdated service versions.</p>
+             <div class="card">
+                <h3><i class="fas fa-book-dead" style="color: var(--accent-primary); margin-right: 10px;"></i>PayloadsAllTheThings</h3>
+                <p>A list of useful payloads and bypasses for Web Application Security.</p>
+                <a href="https://github.com/swisskyrepo/PayloadsAllTheThings" class="card-link">ACCESS REPO</a>
             </div>
-            <div class="card glass">
-                <i class="fas fa-comments"></i>
-                <h4>SecureChat Interface</h4>
-                <p>E2E encrypted messaging platform leveraging Signal Protocol.</p>
+            <div class="card">
+                <h3><i class="fas fa-terminal" style="color: var(--accent-primary); margin-right: 10px;"></i>GTFOBins</h3>
+                <p>Unix binaries that can be used to bypass local security restrictions.</p>
+                <a href="https://gtfobins.github.io/" class="card-link">ACCESS DB</a>
             </div>
-            <div class="card glass">
-                <i class="fas fa-terminal"></i>
-                <h4>Payload Generator</h4>
-                <p>CLI tool for generating obfuscated payloads for red team engagements.</p>
+             <div class="card">
+                <h3><i class="fas fa-globe" style="color: var(--accent-primary); margin-right: 10px;"></i>Shodan</h3>
+                <p>Search engine for Internet-connected devices.</p>
+                <a href="https://www.shodan.io/" class="card-link">INITIATE SCAN</a>
             </div>
         </div>
-    </section>
 
-    <section id="contact">
-        <h3>Secure Uplink</h3>
-        <div class="glass" style="padding: 3rem; text-align: center;">
-            <i class="fas fa-satellite-dish" style="font-size: 3rem; color: var(--accent-color); margin-bottom: 1.5rem;"></i>
-            <p>Transmission ready. Secure your infrastructure today.</p>
-            <p style="font-size: 1.2rem; color: var(--accent-color); font-weight: bold;">jay@example.com</p>
-            <p><a href="https://github.com/Jaypatil7088" style="color: var(--secondary-text);"><i class="fab fa-github"></i> github.com/Jaypatil7088</a></p>
+        <h3 id="contact" class="section-title">SECURE COMM CHANNEL</h3>
+        <div class="card" style="text-align: center; padding: 4rem 2rem;">
+            <i class="fas fa-user-secret" style="font-size: 3rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
+            <h4 style="margin-bottom: 1rem;">Identity Verification Required</h4>
+            <div id="decrypt-container" style="background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 4px; display: inline-block; min-width: 300px; border: 1px dashed var(--text-secondary);">
+                <span id="hidden-email" style="font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: var(--success); letter-spacing: 2px;">*****************</span>
+            </div>
+            <br><br>
+            <button onclick="decryptIdentity()" class="cta-btn" style="background: var(--glass-bg); border: 1px solid var(--success); color: var(--success); box-shadow: none;">
+                <i class="fas fa-unlock"></i> DECRYPT IDENTITY
+            </button>
         </div>
-    </section>
 
-    <footer>
-        <p>&copy; 2026 Jay Patil. System Status: <span style="color: var(--accent-color);">ONLINE</span></p>
-    </footer>
+        <footer>
+            <p>SYSTEM STATUS: ONLINE | ENCRYPTED CONNECTION | &copy; 2026 VOID_NEXUS</p>
+        </footer>
+    </main>
 
     <script>
-        // Particle Network Animation
-        const canvas = document.getElementById('canvas-bg');
+        // News Fetcher
+        async function fetchLiveNews() {
+            const container = document.getElementById('live-news-container');
+            const status = document.getElementById('sync-status');
+            try {
+                const response = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ffeeds.feedburner.com%2FTheHackersNews');
+                const data = await response.json();
+                if (data.status === 'ok') {
+                    container.innerHTML = '';
+                    data.items.slice(0, 3).forEach(item => {
+                        const date = new Date(item.pubDate).toLocaleDateString();
+                        container.insertAdjacentHTML('beforeend', `
+                            <div class="feed-item">
+                                <div class="feed-info">
+                                    <h4><span class="feed-tag" style="border-color: var(--accent-primary); color: var(--accent-primary);">NEW</span> ${item.title}</h4>
+                                    <p class="feed-date">Source: The Hacker News | Published: ${date}</p>
+                                </div>
+                                <a href="${item.link}" target="_blank" class="card-link"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        `);
+                    });
+                    status.innerText = 'SYNC_ACTIVE';
+                    status.style.color = 'var(--success)';
+                }
+            } catch (e) {
+                status.innerText = 'SYNC_OFFLINE';
+                status.style.color = 'var(--danger)';
+            }
+        }
+
+        // HUD Updates
+        function updateHUD() {
+            const latency = Math.floor(Math.random() * 40) + 15;
+            document.getElementById('latency-val').innerText = latency + 'ms';
+            document.querySelectorAll('.graph-bar').forEach(bar => {
+                bar.style.height = Math.floor(Math.random() * 100) + '%';
+            });
+            const load = Math.floor(Math.random() * 30) + 10;
+            const cpuBar = document.getElementById('cpu-bar');
+            document.getElementById('cpu-val').innerText = load + '%';
+            cpuBar.style.width = load + '%';
+            cpuBar.style.backgroundColor = load > 30 ? 'var(--danger)' : 'var(--warning)';
+        }
+
+        // Decryption
+        const realEmail = "jay@voidnexus.com";
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*";
+        function decryptIdentity() {
+            const display = document.getElementById('hidden-email');
+            let iterations = 0;
+            const interval = setInterval(() => {
+                display.innerText = display.innerText.split("").map((l, i) => {
+                    if(i < iterations) return realEmail[i];
+                    return chars[Math.floor(Math.random() * chars.length)];
+                }).join("");
+                if(iterations >= realEmail.length) { clearInterval(interval); display.innerText = realEmail; }
+                iterations += 1/3;
+            }, 30);
+        }
+
+        // Background
+        const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
-
-        window.addEventListener('resize', resize);
-        resize();
-
+        let width, height, particles = [], packets = [];
+        function resize() { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; }
         class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2;
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-
+            constructor() { this.x = Math.random() * width; this.y = Math.random() * height; this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4; this.size = Math.random() * 2 + 1; }
+            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > width) this.vx *= -1; if (this.y < 0 || this.y > height) this.vy *= -1; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = 'rgba(56, 189, 248, 0.5)'; ctx.fill(); }
+        }
+        class Packet {
+            constructor(p1, p2) { this.p1 = p1; this.p2 = p2; this.progress = 0; this.speed = 0.02 + Math.random() * 0.03; this.active = true; }
+            update() { this.progress += this.speed; if (this.progress >= 1) this.active = false; }
             draw() {
-                ctx.fillStyle = 'rgba(2, 132, 199, 0.3)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                if (!this.active) return;
+                for (let i = 0; i < 5; i++) {
+                    const tp = Math.max(0, this.progress - (i * 0.02));
+                    const tx = this.p1.x + (this.p2.x - this.p1.x) * tp;
+                    const ty = this.p1.y + (this.p2.y - this.p1.y) * tp;
+                    ctx.beginPath(); ctx.arc(tx, ty, 2 - (i * 0.3), 0, Math.PI * 2); ctx.fillStyle = `rgba(239, 68, 68, ${1 - (i * 0.2)})`; ctx.fill();
+                }
             }
         }
-
-        function initParticles() {
-            particles = [];
-            const particleCount = Math.min(window.innerWidth / 10, 100); 
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
-
+        function init() { particles = []; for (let i = 0; i < 45; i++) particles.push(new Particle()); }
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            
-            particles.forEach((p, index) => {
-                p.update();
-                p.draw();
-
-                // Draw connections
-                for (let j = index + 1; j < particles.length; j++) {
-                    const p2 = particles[j];
-                    const dx = p.x - p2.x;
-                    const dy = p.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 150) {
-                        ctx.strokeStyle = `rgba(2, 132, 199, ${0.1 - dist/1500})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
+            particles.forEach((p, i) => {
+                p.update(); p.draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const d = Math.sqrt((p.x - particles[j].x)**2 + (p.y - particles[j].y)**2);
+                    if (d < 160) {
+                        ctx.beginPath(); ctx.strokeStyle = `rgba(56, 189, 248, ${0.15 * (1 - d/160)})`; ctx.moveTo(p.x, p.y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+                        if (Math.random() < 0.002) packets.push(new Packet(p, particles[j]));
                     }
                 }
             });
-
+            packets = packets.filter(p => { p.update(); p.draw(); return p.active; });
             requestAnimationFrame(animate);
         }
-
-        initParticles();
-        animate();
+        window.addEventListener('resize', resize);
+        resize(); init(); animate();
+        fetchLiveNews();
+        setInterval(updateHUD, 1000);
     </script>
 </body>
 </html>
